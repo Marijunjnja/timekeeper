@@ -1,0 +1,48 @@
+{
+  "addons": [
+    {
+      "plan": "heroku-postgresql:hobby-basic"
+    },
+    {
+      "plan": "papertrail:choklad"
+    },
+    {
+      "plan": "rollbar:free"
+    },
+    {
+      "plan": "scheduler:standard"
+    }
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    },
+    {
+      "url": "heroku/ruby"
+    }
+  ],
+  "env": {
+    "DEVISE_SECRET_KEY": {
+      "generator": "secret"
+    },
+    "GITHUB_TOKEN": {
+      "required": true,
+      "value": "CHANGE ME"
+    },
+    "RAILS_ENV": {
+      "value": "production"
+    },
+    "RAILS_SERVE_STATIC_FILES": {
+      "value": "enabled"
+    },
+    "SECRET_KEY_BASE": {
+      "generator": "secret"
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "standard-1x"
+    }
+  }
+}
