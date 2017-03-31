@@ -25,7 +25,7 @@ class CommandWorker
     projects.flatten!.sort_by!(&:name)
 
     projects.map do |project|
-      "\n- #{project.name}"
+      "\n- #{project.name} (#{project.downcase.parameterize})"
     end.join('')
   end
 
