@@ -54,6 +54,8 @@ gem 'rails_12factor'
 
 gem 'tenk', '~> 0.0.5'
 gem 'faraday'
+gem 'business_time'
+gem 'terminal-table'
 
 group :development do
   gem 'revelry_generate'
