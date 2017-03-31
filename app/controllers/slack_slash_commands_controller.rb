@@ -1,4 +1,6 @@
 class CommandWorker
+  include ActionView::Helpers::NumberHelper
+
   def connection(params)
     Faraday.new(url: params[:response_url]) do |faraday|
       faraday.adapter Faraday.default_adapter
@@ -57,8 +59,9 @@ class CommandWorker
     end]
 
     <<-TXT
-      Total: #{total_hours}
-      By person: #{hours_by_person.map { |name, hours| "\n-#{name}: #{hours}" }.join('')}
+
+Total: #{number_with_precision total_hours, precision: 2}
+By person:#{hours_by_person.map { |name, hours| "\n  - #{name}: #{number_with_precision hours, precision: 2}" }.join('')}
     TXT
   end
 
