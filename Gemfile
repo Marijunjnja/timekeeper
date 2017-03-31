@@ -52,7 +52,7 @@ gem 'dotenv'
 gem 'puma'
 gem 'rails_12factor'
 
-gem 'tenk'
+gem 'tenk', '~> 0.0.5'
 gem 'faraday'
 
 group :development do
