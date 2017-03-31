@@ -18,7 +18,7 @@ function findFake(id) {
 }
 function createFake(attrs={}) {
   const id = ++nextFakeId
-  const name = `home ${id}`
+  const name = `slackslashcommand ${id}`
   const fake = fakesById[id] = {
     name,
     ...attrs,
@@ -45,54 +45,54 @@ for(let i = 0; i < 10; i++) {
 
 // index
 router.get('/', (req, res) => {
-  res.render('homes/index', {
-    homes: fakes,
+  res.render('slackslashcommands/index', {
+    slackslashcommands: fakes,
   })
 })
 
 // new
 router.get('/new', (req, res) => {
-  const home = req.body.home || {}
+  const slackslashcommand = req.body.slackslashcommand || {}
 
-  res.render('homes/new', {
-    home,
+  res.render('slackslashcommands/new', {
+    slackslashcommand,
   })
 })
 
 // show
 router.get('/:id', (req, res) => {
-  res.render('homes/show', {
-    home: findFake(req.params.id),
+  res.render('slackslashcommands/show', {
+    slackslashcommand: findFake(req.params.id),
   })
 })
 
 // edit
 router.get('/:id/edit', (req, res) => {
-  res.render('homes/edit', {
-    home: findFake(req.params.id),
+  res.render('slackslashcommands/edit', {
+    slackslashcommand: findFake(req.params.id),
   })
 })
 
 // create
 router.post('/', (req, res) => {
-  const attrs = req.body.homes || {}
+  const attrs = req.body.slackslashcommands || {}
   const {id} = createFake(attrs)
 
-  res.redirect(`/homes/${id}`)
+  res.redirect(`/slackslashcommands/${id}`)
 })
 
 // update
 router.post('/:id', (req, res) => {
-  const attrs = req.body.homes || {}
+  const attrs = req.body.slackslashcommands || {}
 
   updateFake(req.params.id, attrs)
-  res.redirect(`/homes/${req.params.id}`)
+  res.redirect(`/slackslashcommands/${req.params.id}`)
 })
 
 // delete
 router.delete('/:id', (req, res) => {
   deleteFake(req.params.id)
-  res.redirect('/homes')
+  res.redirect('/slackslashcommands')
 })
 
 export default router

@@ -4,27 +4,25 @@ import Layout from 'app/shared/components/Layout'
 import ListItem from '../components/ListItem'
 import shape from '../shape'
 
-function renderListItem(home) {
-  const {id} = home
+function renderListItem(slackslashcommand) {
+  const {id} = slackslashcommand
 
   return (
     <ListItem
       key={id}
-      home={home}
+      slackslashcommand={slackslashcommand}
     />
   )
 }
 
-export default function Index({homes}) {
+export default function Index({slackslashcommands}) {
   return (
     <Layout>
-      <h1>homes</h1>
-      <Button href="/homes/new">Create a new home</Button>
-      {homes.map(renderListItem)}
+      <h1>slackslashcommands</h1>
     </Layout>
   )
 }
 
 Index.propTypes = {
-  homes: PropTypes.arrayOf(PropTypes.shape(shape)).isRequired,
+  slackslashcommands: PropTypes.arrayOf(PropTypes.shape(shape)).isRequired,
 }

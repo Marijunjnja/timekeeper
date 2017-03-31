@@ -51,6 +51,10 @@ gem 'foreman'
 gem 'dotenv'
 gem 'puma'
 gem 'rails_12factor'
+
+gem 'tenk'
+gem 'faraday'
+
 group :development do
   gem 'revelry_generate'
 end
