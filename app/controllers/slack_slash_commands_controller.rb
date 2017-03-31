@@ -13,25 +13,20 @@ class CommandWorker
   def list_projects
     projects = []
     page = 1
-    retval = ''
 
     loop do
-      response = client.projects.list(page: page)
+      response = tenk_client.projects.list(page: page, filter_field: 'project_state', filter_list: 'Confirmed')
       new_projects = response.data
       projects << new_projects
       break unless response.paging.next
       page += 1
     end
 
-    projects.flatten!
-    project_groups = projects.sort_by(&:name).group_by(&:project_state)
-    project_groups.each do |state, projects|
-      projects.each do |project|
-        retval += "- #{project.name}\n"
-      end
-    end
+    projects.flatten!.sort_by!(&:name)
 
-    retval
+    projects.map do |project|
+      "\n- #{project.name}"
+    end.join('')
   end
 
   def perform_async(params)
