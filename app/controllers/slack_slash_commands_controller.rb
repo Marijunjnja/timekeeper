@@ -163,7 +163,8 @@ class CommandWorker
         req.url params[:response_url]
         req.headers['Content-Type'] = 'application/json'
         req.body = JSON.generate({
-          text: report
+          response_type: 'in_channel',
+          text: report,
         })
       end
     end
