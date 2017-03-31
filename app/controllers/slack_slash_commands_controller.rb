@@ -35,19 +35,21 @@ class CommandWorker
   end
 
   def perform_async(params)
-    command_parts = params[:text].split(' ')
-    report = if command_parts[0] == 'list'
-      list_projects
-    else
-      'Not implemented'
-    end
+    Thread.new do
+      command_parts = params[:text].split(' ')
+      report = if command_parts[0] == 'list'
+        list_projects
+      else
+        'Not implemented'
+      end
 
-    connection(params).post do |req|
-      req.url params[:response_url]
-      req.headers['Content-Type'] = 'application/json'
-      req.body = JSON.generate({
-        text: report
-      })
+      connection(params).post do |req|
+        req.url params[:response_url]
+        req.headers['Content-Type'] = 'application/json'
+        req.body = JSON.generate({
+          text: report
+        })
+      end
     end
   end
 end
