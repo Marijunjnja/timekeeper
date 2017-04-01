@@ -113,7 +113,7 @@ class CommandWorker
         ]
     end
 
-    "```\n#{table}\n```"
+    "```\n#{project_slug}:\n#{table}\n```"
   end
 
   def all_entries(phase_ids)
@@ -154,7 +154,7 @@ class CommandWorker
     Thread.new do
       command_parts = params[:text].split(' ')
       report = if command_parts[0] == 'list'
-        list_projects
+        "\nProjects:\n" + list_projects
       else
         get_actual_time(command_parts[1])
       end
