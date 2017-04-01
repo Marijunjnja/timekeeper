@@ -88,7 +88,7 @@ class CommandWorker
         {
           actual: (entries || []).sum(&:hours),
           budget: budgets_by_user_id[user_id] || 0,
-          updated_at: Time.zone.parse((entries || []).map(&:updated_at).max).in_time_zone('America/Chicago'),
+          updated_at: entries.present? ? Time.zone.parse(entries.map(&:updated_at).max).in_time_zone('America/Chicago') : nil,
         }
       ]
     end]
@@ -111,7 +111,7 @@ class CommandWorker
           name,
           {value: number_with_precision(hours[:actual], precision: 2), alignment: :right},
           {value: number_with_precision(hours[:budget], precision: 2), alignment: :right},
-          hours[:updated_at].strftime('%Y-%m-%d %H:%M CT'),
+          hours[:updated_at].try(:strftime, '%Y-%m-%d %H:%M CT') || '-',
         ]
       end
         t.add_separator
