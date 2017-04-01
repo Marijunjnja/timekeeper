@@ -93,6 +93,16 @@ class CommandWorker
       ]
     end]
 
+    hours_by_discipline = user_ids.each_with_object({}) do |user_id, discipline_hash|
+      user = tenk_client.users.get(user_id)
+      discipline = user.discipline
+      entries = actuals_by_user[user_id]
+      discipline_hash[discipline] = {
+        actual: (discipline_hash[discipline].try(:[], :actual) || 0) + (entries || []).sum(&:hours),
+        budget: (discipline_hash[discipline].try(:[], :budget) || 0) + (budgets_by_user_id[user_id] || 0),
+      }
+    end
+
     table = Terminal::Table.new do |t|
       t << ['Name', 'Actual', 'Budget', 'Last Updated']
       t.add_separator
@@ -113,7 +123,19 @@ class CommandWorker
         ]
     end
 
-    "```\n#{project_slug}:\n#{table}\n```"
+    discipline_table = Terminal::Table.new do |t|
+      t << ['Discipline', 'Actual', 'Budget']
+      t.add_separator
+      hours_by_discipline.each do |discipline, hours|
+        t << [
+          discipline,
+          {value: number_with_precision(hours[:actual], precision: 2), alignment: :right},
+          {value: number_with_precision(hours[:budget], precision: 2), alignment: :right},
+        ]
+      end
+    end
+
+    "```\n#{project_slug}:\n#{table}\n#{discipline_table}\n```"
   end
 
   def all_entries(phase_ids)
