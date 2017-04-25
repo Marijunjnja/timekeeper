@@ -11,25 +11,35 @@ module Commands
 
     def get_actual_time(start_dt, end_dt, &block)
       all_results = groups_by_user_project_and_version(start_dt, end_dt)
-      all_results.each_slice(20) do |slice|
-        table = Terminal::Table.new do |t|
-          t << ['Name', 'Project', 'Actual', 'Budget', 'Diff']
-          t.add_separator
-          slice.each do |user_name, project_hash|
-            project_hash.each do |project_name, data_hash|
-              t << [
-                user_name,
-                project_name,
-                { value: number_with_precision(data_hash['actual'], precision: 2), alignment: :right},
-                { value: number_with_precision(data_hash['budget'], precision: 2), alignment: :right},
-                { value: number_with_precision((data_hash['budget'] || 0) - (data_hash['actual'] || 0), precision: 2), alignment: :right},
-              ]
-            end
-          end
-        end.to_s
 
-        yield "```\n#{table}\n```"
+      row_count = 0
+      table = Terminal::Table.new
+      table << ['Name', 'Project', 'Actual', 'Budget', 'Diff']
+      table.add_separator
+
+      all_results.each do |user_name, project_hash|
+        project_hash.each do |project_name, data_hash|
+          table << [
+            user_name,
+            project_name,
+            { value: number_with_precision(data_hash['actual'], precision: 2), alignment: :right},
+            { value: number_with_precision(data_hash['budget'], precision: 2), alignment: :right},
+            { value: number_with_precision((data_hash['budget'] || 0) - (data_hash['actual'] || 0), precision: 2), alignment: :right},
+          ]
+          row_count += 1
+
+          if row_count > 20
+            yield "```\n#{table.to_s}\n```"
+
+            row_count = 0
+            table = Terminal::Table.new
+            table << ['Name', 'Project', 'Actual', 'Budget', 'Diff']
+            table.add_separator
+          end
+        end
       end
+
+      yield "```\n#{table.to_s}\n```"
     end
 
     def groups_by_user_project_and_version(start_dt, end_dt)
