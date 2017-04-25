@@ -9,7 +9,7 @@ module Commands
     end
 
     def get_actual_time(start_dt, end_dt)
-      "```\n" + table(start_dt, end_dt) + "\n```\n"
+      "```\n#{table(start_dt, end_dt)}\n```"
     end
 
     def table(start_dt, end_dt)
