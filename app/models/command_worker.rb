@@ -1,9 +1,6 @@
 class CommandWorker
   def perform_async(params)
     Thread.new do
-      name, *args = params[:text].split(' ')
-      report = command_class_for(name).new.results(*args)
-
       connection(params).post do |req|
         req.url params[:response_url]
         req.headers['Content-Type'] = 'application/json'
@@ -13,6 +10,11 @@ class CommandWorker
         })
       end
     end
+  end
+
+  def report(params)
+    name, *args = params[:text].split(' ')
+    report = command_class_for(name).new.results(*args)
   end
 
   def command_class_for(command_name)
