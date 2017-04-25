@@ -4,7 +4,7 @@ module Commands
       start_dt = Time.zone.now.beginning_of_week.strftime('%Y-%m-%d'),
       end_dt = Time.zone.now.end_of_week.strftime('%Y-%m-%d'),
       *args,
-      &block,
+      &block
     )
       get_actual_time(start_dt, end_dt, &block)
     end
