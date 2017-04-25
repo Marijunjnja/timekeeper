@@ -12,8 +12,7 @@ module Commands
     def get_actual_time(start_dt, end_dt, &block)
       all_results = groups_by_user_project_and_version(start_dt, end_dt)
       all_results.each_slice(25) do |slice|
-        yield ("```\n" +
-        Terminal::Table.new do |t|
+        table = Terminal::Table.new do |t|
           t << ['Name', 'Project', 'Actual', 'Budget', 'Diff']
           t.add_separator
           .each do |user_name, project_hash|
@@ -28,7 +27,8 @@ module Commands
             end
           end
         end.to_s
-        + "\n```")
+
+        yield "```\n#{table}\n```"
       end
     end
 
