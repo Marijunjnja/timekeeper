@@ -2,12 +2,6 @@ module Commands
   class BaseCommand
     include ActionView::Helpers::NumberHelper
 
-    def connection(params)
-      Faraday.new(url: params[:response_url]) do |faraday|
-        faraday.adapter Faraday.default_adapter
-      end
-    end
-
     def tenk_client
       token = ENV['TENK_TOKEN'] || fail('No api token set. Set TENK_TOKEN environment variable.')
       @_client ||= Tenk.new token: token, api_base: ENV['TENK_API_BASE']

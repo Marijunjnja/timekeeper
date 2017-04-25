@@ -12,9 +12,15 @@ class CommandWorker
     end
   end
 
+  def connection(params)
+    Faraday.new(url: params[:response_url]) do |faraday|
+      faraday.adapter Faraday.default_adapter
+    end
+  end
+
   def report(params)
     name, *args = params[:text].split(' ')
-    report = command_class_for(name).new.results(*args)
+    command_class_for(name).new.results(*args)
   end
 
   def command_class_for(command_name)
