@@ -7,11 +7,12 @@ class CommandWorker
           req.headers['Content-Type'] = 'application/json'
           req.body = JSON.generate({
             response_type: 'in_channel',
-            text: report,
+            text: report(params),
           })
         end
       rescue => e
         Rails.logger.error e
+        Rails.logger.error e.backtrace
       end
     end
   end
