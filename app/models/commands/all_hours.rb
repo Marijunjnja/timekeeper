@@ -15,7 +15,7 @@ module Commands
         table = Terminal::Table.new do |t|
           t << ['Name', 'Project', 'Actual', 'Budget', 'Diff']
           t.add_separator
-          .each do |user_name, project_hash|
+          slice.each do |user_name, project_hash|
             project_hash.each do |project_name, data_hash|
               t << [
                 user_name,
