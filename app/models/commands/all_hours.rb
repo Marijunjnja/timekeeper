@@ -1,16 +1,17 @@
 module Commands
   class AllHours < ::Commands::BaseCommand
     def results(
+      role = '',
       start_dt = Time.zone.now.beginning_of_week.strftime('%Y-%m-%d'),
       end_dt = Time.zone.now.end_of_week.strftime('%Y-%m-%d'),
       *args,
       &block
     )
-      get_actual_time(start_dt, end_dt, &block)
+      get_actual_time(start_dt, end_dt, role, &block)
     end
 
-    def get_actual_time(start_dt, end_dt, &block)
-      all_results = groups_by_user_project_and_version(start_dt, end_dt)
+    def get_actual_time(start_dt, end_dt, role, &block)
+      all_results = groups_by_user_project_and_version(start_dt, end_dt, role)
 
       row_count = 0
       table = Terminal::Table.new
@@ -40,9 +41,11 @@ module Commands
       yield "```\n#{table.to_s}\n```"
     end
 
-    def groups_by_user_project_and_version(start_dt, end_dt)
+    def groups_by_user_project_and_version(start_dt, end_dt, role)
       all_times(start_dt, end_dt).each_with_object({}) do |entry, groups_by_user_project_and_version|
         user_model = user_lookup[entry[:user_id]]
+        next unless (user_model[:discipline] || user_model[:displayName] || '').downcase.match(role.downcase).present?
+
         name = user_model[:display_name] || user_model[:displayName]
         project_id = phase_lookup[entry[:assignable_id]][:name]
         version = entry[:version]
