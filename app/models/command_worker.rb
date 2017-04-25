@@ -1,13 +1,17 @@
 class CommandWorker
   def perform_async(params)
     Thread.new do
-      connection(params).post do |req|
-        req.url params[:response_url]
-        req.headers['Content-Type'] = 'application/json'
-        req.body = JSON.generate({
-          response_type: 'in_channel',
-          text: report,
-        })
+      begin
+        connection(params).post do |req|
+          req.url params[:response_url]
+          req.headers['Content-Type'] = 'application/json'
+          req.body = JSON.generate({
+            response_type: 'in_channel',
+            text: report,
+          })
+        end
+      rescue => e
+        Rails.logger.error e
       end
     end
   end
