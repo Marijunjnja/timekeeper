@@ -28,13 +28,11 @@ module Commands
           ]
           row_count += 1
 
-          if row_count > 20
+          if row_count > 25
             yield "```\n#{table.to_s}\n```"
 
             row_count = 0
             table = Terminal::Table.new
-            table << ['Name', 'Project', 'Actual', 'Budget', 'Diff']
-            table.add_separator
           end
         end
       end
