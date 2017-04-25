@@ -9,6 +9,10 @@ module Commands
     end
 
     def get_actual_time(start_dt, end_dt)
+      "```\n" + table(start_dt, end_dt) + "\n```\n"
+    end
+
+    def table(start_dt, end_dt)
       Terminal::Table.new do |t|
         t << ['Name', 'Project', 'Actual', 'Budget', 'Diff']
         t.add_separator
