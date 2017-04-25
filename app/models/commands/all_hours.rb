@@ -3,31 +3,33 @@ module Commands
     def results(
       start_dt = Time.zone.now.beginning_of_week.strftime('%Y-%m-%d'),
       end_dt = Time.zone.now.end_of_week.strftime('%Y-%m-%d'),
-      *args
+      *args,
+      &block,
     )
-      get_actual_time(start_dt, end_dt)
+      get_actual_time(start_dt, end_dt, &block)
     end
 
-    def get_actual_time(start_dt, end_dt)
-      "```\n#{table(start_dt, end_dt)}\n```"
-    end
-
-    def table(start_dt, end_dt)
-      Terminal::Table.new do |t|
-        t << ['Name', 'Project', 'Actual', 'Budget', 'Diff']
-        t.add_separator
-        groups_by_user_project_and_version(start_dt, end_dt).each do |user_name, project_hash|
-          project_hash.each do |project_name, data_hash|
-            t << [
-              user_name,
-              project_name,
-              { value: number_with_precision(data_hash['actual'], precision: 2), alignment: :right},
-              { value: number_with_precision(data_hash['budget'], precision: 2), alignment: :right},
-              { value: number_with_precision((data_hash['budget'] || 0) - (data_hash['actual'] || 0), precision: 2), alignment: :right},
-            ]
+    def get_actual_time(start_dt, end_dt, &block)
+      all_results = groups_by_user_project_and_version(start_dt, end_dt)
+      all_results.each_slice(25) do |slice|
+        yield ("```\n" +
+        Terminal::Table.new do |t|
+          t << ['Name', 'Project', 'Actual', 'Budget', 'Diff']
+          t.add_separator
+          .each do |user_name, project_hash|
+            project_hash.each do |project_name, data_hash|
+              t << [
+                user_name,
+                project_name,
+                { value: number_with_precision(data_hash['actual'], precision: 2), alignment: :right},
+                { value: number_with_precision(data_hash['budget'], precision: 2), alignment: :right},
+                { value: number_with_precision((data_hash['budget'] || 0) - (data_hash['actual'] || 0), precision: 2), alignment: :right},
+              ]
+            end
           end
-        end
-      end.to_s
+        end.to_s
+        + "\n```")
+      end
     end
 
     def groups_by_user_project_and_version(start_dt, end_dt)

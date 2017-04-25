@@ -1,7 +1,7 @@
 module Commands
   class Hours < ::Commands::BaseCommand
-    def results(slug)
-      get_actual_time(slug)
+    def results(slug, &block)
+      yield get_actual_time(slug)
     end
 
     def get_actual_time(project_slug)

@@ -1,7 +1,7 @@
 module Commands
   class ListProjects < ::Commands::BaseCommand
-    def results(*args)
-      "\nProjects:\n" + list_projects
+    def results(*args, &block)
+      yield ("\nProjects:\n" + list_projects)
     end
 
     def list_projects
