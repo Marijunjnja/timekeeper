@@ -32,8 +32,11 @@ class CommandWorker
 
   def command_class_for(command_name)
     case command_name.downcase
+    when 'projects'
     when 'list'
       return Commands::ListProjects
+    when 'people'
+      return Commands::People
     when 'hours'
       return Commands::Hours
     when 'hours_all'

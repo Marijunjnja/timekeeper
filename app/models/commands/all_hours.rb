@@ -153,7 +153,9 @@ module Commands
         ].max.business_days_until([
           end_dt,
           assignment.ends_at.to_date,
-        ].min)
+        ].min) + 1
+
+        business_days_in_assignment_this_week = [business_days_in_assignment_this_week, business_days_in_assignment].min
         assignment.fixed_hours * (business_days_in_assignment_this_week.to_f / business_days_in_assignment.to_f)
       when 'percent'
         assignment.percent * 40.0
