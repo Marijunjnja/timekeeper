@@ -7,7 +7,7 @@ module Commands
       discipline_groups = users.group_by(&:discipline)
       discipline_groups.map do |discipline, group|
         buffer += "\n"
-        buffer += discipline
+        buffer += (discipline || '')
         group.each do |person|
           buffer += "\n  - [ ] #{person.display_name}"
         end
