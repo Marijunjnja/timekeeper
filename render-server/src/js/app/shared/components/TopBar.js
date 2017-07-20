@@ -9,13 +9,8 @@ export default function SiteTopBar({title}) {
       <TopBar.Title>
         <strong><a href="/">{title}</a></strong>
       </TopBar.Title>
-      <TopBar.Left>
-        <Menu>
-          <Menu.Item><a href="/examples">Examples</a></Menu.Item>
-        </Menu>
-      </TopBar.Left>
       <TopBar.Right>
-        <QuickSearch />
+        <a href="https://github.com/revelrylabs/timekeeper">Contribute on Github</a>
       </TopBar.Right>
     </TopBar>
   )

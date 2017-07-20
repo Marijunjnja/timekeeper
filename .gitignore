@@ -30,6 +30,9 @@ lib-cov
 # Coverage directory used by tools like istanbul
 coverage
 
+# Doc directory
+/doc/*
+
 # nyc test coverage
 .nyc_output
 
@@ -75,7 +78,8 @@ typings/
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*

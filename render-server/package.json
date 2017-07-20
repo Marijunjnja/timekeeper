@@ -4,8 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "postinstall": "(cd render-server; npm install && npm run build)",
-
     "test": "NODE_PATH=src/js mocha --opts .mocha/opts",
     "build": "gulp build",
     "dev": "gulp build && gulp dev"

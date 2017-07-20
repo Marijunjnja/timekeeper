@@ -467,7 +467,6 @@ module.exports =
 	      link: [{ href: '/css/site.css', rel: 'stylesheet' }],
 	      script: [{ src: '/js/client.js', type: 'text/javascript' }]
 	    }),
-	    _react2.default.createElement(_TopBar2.default, { title: title }),
 	    _react2.default.createElement(
 	      _grid.Row,
 	      null,
@@ -545,26 +544,13 @@ module.exports =
 	      )
 	    ),
 	    _react2.default.createElement(
-	      _TopBar2.default.Left,
-	      null,
-	      _react2.default.createElement(
-	        _Menu2.default,
-	        null,
-	        _react2.default.createElement(
-	          _Menu2.default.Item,
-	          null,
-	          _react2.default.createElement(
-	            'a',
-	            { href: '/examples' },
-	            'Examples'
-	          )
-	        )
-	      )
-	    ),
-	    _react2.default.createElement(
 	      _TopBar2.default.Right,
 	      null,
-	      _react2.default.createElement(_QuickSearch2.default, null)
+	      _react2.default.createElement(
+	        'a',
+	        { href: 'https://github.com/revelrylabs/timekeeper' },
+	        'Contribute on Github'
+	      )
 	    )
 	  );
 	}
@@ -1307,8 +1293,13 @@ module.exports =
 	    null,
 	    _react2.default.createElement(
 	      'h1',
-	      null,
+	      { className: 'text-center' },
 	      'Welcome to timekeeper.'
+	    ),
+	    _react2.default.createElement(
+	      'p',
+	      { className: 'text-center' },
+	      'This thing is a slack bot, so there\'s really no web UI yet.'
 	    )
 	  );
 	}
@@ -1965,7 +1956,7 @@ module.exports =
 	});
 	
 	exports.default = function () {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'Revelry App';
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'Timekeeper';
 	
 	  return state;
 	};

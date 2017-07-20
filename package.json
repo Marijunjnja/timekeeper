@@ -12,7 +12,8 @@
     "rails": "RENDER_SERVICE_SOCKET=./tmp/render.sock bundle exec puma -t 5:5 -p ${PORT:-3000} -e ${RACK_ENV:-development}",
     "node": "(cd render-server; PORT=../tmp/render.sock node_modules/.bin/nodemon dist/server.js)",
     "nodedev": "(cd render-server; PORT=../tmp/render.sock npm run dev)",
-    "dev": "NODE_ENV=$RAILS_ENV concurrently -p \"{command}\" -l 20 \"npm run rails\" \"npm run nodedev\""
+    "dev": "NODE_ENV=$RAILS_ENV concurrently -p \"{command}\" -l 20 \"npm run rails\" \"npm run nodedev\"",
+    "postinstall": "(cd render-server; npm install && npm run build)"
   },
   "author": "",
   "license": "UNLICENSED",

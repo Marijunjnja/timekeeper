@@ -1,3 +1,3 @@
-export default function(state = 'Revelry App') {
+export default function(state = 'Timekeeper') {
   return state
 }

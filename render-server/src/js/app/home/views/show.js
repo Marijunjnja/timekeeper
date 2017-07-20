@@ -7,9 +7,12 @@ import shape from '../shape'
 export default function Show() {
   return (
     <Layout>
-      <h1>
+      <h1 className="text-center">
         Welcome to timekeeper.
       </h1>
+      <p className="text-center">
+        This thing is a slack bot, so there's really no web UI yet.
+      </p>
     </Layout>
   )
 }

@@ -16,7 +16,6 @@ function MainLayout({title, children}) {
           {src: '/js/client.js', type: 'text/javascript'},
         ]}
       />
-      <TopBar title={title} />
       <Row>
         <Col small={12}>
           {children}
