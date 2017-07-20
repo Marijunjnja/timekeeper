@@ -69,4 +69,6 @@ end
 
 group :test do
   gem 'simplecov'
+  gem 'climate_control'
+  gem 'webmock'
 end
