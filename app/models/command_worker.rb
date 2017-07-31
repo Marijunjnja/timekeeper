@@ -40,6 +40,8 @@ class CommandWorker
       return Commands::Hours
     when 'hours_all'
       return Commands::AllHours
+    when 'hours_report'
+      return Commands::HoursReport
     end
   end
 end
