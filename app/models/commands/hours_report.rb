@@ -15,7 +15,7 @@ module Commands
 
       table = []
       row_count = 0
-      
+
       all_results.each do |user_name, project_hash|
         project_hash.each do |project_name, data_hash|
           next if (data_hash['budget'] || 0) < 8
@@ -33,6 +33,7 @@ module Commands
           row_count += 1
 
           if row_count > 25
+            Rails.logger.info "```\n#{table.join("\n")}\n```"
             yield "```\n#{table.join("\n")}\n```"
 
             row_count = 0
@@ -41,6 +42,7 @@ module Commands
         end
       end
 
+      Rails.logger.info "```\n#{table.join("\n")}\n```"
       yield "```\n#{table.join("\n")}\n```"
     end
 
