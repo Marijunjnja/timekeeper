@@ -44,6 +44,7 @@ module Commands
     def groups_by_user_project_and_version(start_dt, end_dt, role)
       all_times(start_dt, end_dt).each_with_object({}) do |entry, groups_by_user_project_and_version|
         user_model = user_lookup[entry[:user_id]]
+        next if user_model.blank?
         next unless (user_model[:discipline] || user_model[:displayName] || '').downcase.match(role.downcase).present?
 
         name = user_model[:display_name] || user_model[:displayName]
