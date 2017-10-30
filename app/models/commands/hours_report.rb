@@ -1,21 +1,23 @@
+require 'csv'
+
 module Commands
   class HoursReport < ::Commands::BaseCommand
     def results(
       role = '',
       start_dt = Time.zone.now.beginning_of_week.strftime('%Y-%m-%d'),
       end_dt = Time.zone.now.end_of_week.strftime('%Y-%m-%d'),
+      fmt = 'slack',
       *args,
       &block
     )
-      get_actual_time(start_dt, end_dt, role, &block)
+      get_actual_time(start_dt, end_dt, role, fmt, &block)
     end
 
-    def get_actual_time(start_dt, end_dt, role, &block)
+    def get_actual_time(start_dt, end_dt, role, fmt, &block)
       all_results = groups_by_user_project_and_version(start_dt, end_dt, role)
 
       table = []
       row_count = 0
-
       all_results.each do |user_name, project_hash|
         project_hash.each do |project_name, data_hash|
           next if (data_hash['budget'] || 0) < 8
@@ -29,21 +31,37 @@ module Commands
             number_with_precision(data_hash['budget'] || 0, precision: 2),
             number_with_precision(diff.abs <= 2.0 ? 1 : ((data_hash['budget'] || 0) - diff.abs) / (data_hash['budget'] || 1), precision: 2),
             "{" + number_with_precision(data_hash['actual'] || 0, precision: 2) + "}",
-          ].join(' | ')
-          row_count += 1
-
-          if row_count > 25
-            Rails.logger.info "```\n#{table.join("\n")}\n```"
-            yield "```\n#{table.join("\n")}\n```"
-
-            row_count = 0
-            table = []
-          end
+          ]
         end
       end
 
-      Rails.logger.info "```\n#{table.join("\n")}\n```"
-      yield "```\n#{table.join("\n")}\n```"
+      format_list(fmt, table, &block)
+    end
+
+    def format_list(fmt, list, &block)
+      if fmt == 'csv'
+        format_csv(list, &block)
+      else
+        format_slack(list, &block)
+      end
+    end
+
+    def format_csv(list, &block)
+      yield (CSV.generate force_quotes: true do |csv|
+        csv << %w(username week_of_year start_date project_name budget rating actual)
+        list.each do |row|
+          csv << row
+        end
+      end)
+    end
+
+    def format_slack(list, &block)
+      list.each_slice(25) do |slice|
+        fmt_slice = slice.map do |line|
+          line.join("|")
+        end
+        yield "```\n#{fmt_slice.join("\n")}\n```"
+      end
     end
 
     def groups_by_user_project_and_version(start_dt, end_dt, role)
