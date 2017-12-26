@@ -60,7 +60,7 @@ gem 'terminal-table'
 
 group :development do
   gem 'revelry_generate'
-  gem 'yard'
+  gem 'yard', '>= 0.9.11'
 end
 
 group :development, :test do
