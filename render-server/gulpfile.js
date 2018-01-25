@@ -1,5 +1,5 @@
 const gulp = require('gulp')
-const createTasks = require('our-gulp')
+const createTasks = require('@revelry/our-gulp')
 
 const isProd = process.env.NODE_ENV === 'production'
 
