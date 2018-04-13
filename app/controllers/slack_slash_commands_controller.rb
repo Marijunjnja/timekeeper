@@ -1,5 +1,5 @@
 class SlackSlashCommandsController < ApplicationController
-  skip_before_action :verify_authenticity_token
+  skip_before_action :verify_authenticity_token, raise: false
 
   def create
     return render json: {}, status: 403 unless valid_slack_token?
