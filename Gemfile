@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '5.2.0'
 gem 'rake', '~> 10.5'
+gem 'sprockets', '~> 3.7.2'
 # Use postgresql as the database for Active Record
 # gem 'pg', '~> 0.15'
 # Use Uglifier as compressor for JavaScript assets
